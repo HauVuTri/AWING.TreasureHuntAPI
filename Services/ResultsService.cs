@@ -26,8 +26,13 @@ namespace AWING.TreasureHuntAPI.Services
             }
 
             // Perform the calculation for minimum fuel
-            double minimumFuel = CalculateMinimumFuel(map);
-
+            double? minimumFuel = CalculateMinimumFuel(map);
+            if (minimumFuel == null)
+            {
+                return new Result()
+                {
+                };
+            }
             // Store the result
             var result = new Result
             {
@@ -49,7 +54,7 @@ namespace AWING.TreasureHuntAPI.Services
                 .FirstOrDefaultAsync();
         }
 
-        public double CalculateMinimumFuel(TreasureMap map)
+        public double? CalculateMinimumFuel(TreasureMap map)
         {
             int n = map.RowsCount;
             int m = map.ColsCount;
@@ -108,9 +113,15 @@ namespace AWING.TreasureHuntAPI.Services
                 }
             }
 
-            return minTotalFuel;
+            return minTotalFuel == double.MaxValue?null: minTotalFuel;
         }
 
-
+        public async Task<IEnumerable<TreasureMap>> GetAllResultByUser(int userId)
+        {
+            return await _context.TreasureMaps.AsNoTracking()
+                 .Where(m => m.UserId == userId)
+                 .Include(m => m.Results)
+                 .ToListAsync();
+        }
     }
 }

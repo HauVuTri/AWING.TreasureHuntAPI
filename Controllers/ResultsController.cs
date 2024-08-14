@@ -49,5 +49,19 @@ namespace AWING.TreasureHuntAPI.Controllers
 
             return Ok(result);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetAllResultByUser()
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
+            var result = await _resultsService.GetAllResultByUser(userId);
+
+            if (result == null)
+            {
+                return NotFound("Result not found for the specified map.");
+            }
+
+            return Ok(result);
+        }
     }
+
 }

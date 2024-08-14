@@ -14,10 +14,12 @@ namespace AWING.TreasureHuntAPI.Controllers
     public class TreasureMapsController : ControllerBase
     {
         private readonly ITreasureMapService _treasureMapService;
+        private readonly IResultsService _resultsService;
 
-        public TreasureMapsController(ITreasureMapService treasureMapService)
+        public TreasureMapsController(ITreasureMapService treasureMapService, IResultsService resultsService)
         {
             _treasureMapService = treasureMapService;
+            _resultsService = resultsService;
         }
 
         // POST: api/treasuremaps
@@ -27,6 +29,13 @@ namespace AWING.TreasureHuntAPI.Controllers
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
             var treasureMap = await _treasureMapService.CreateTreasureMap(dto, userId);
             return treasureMap;
+        }
+        [HttpPost("Calculate")]
+        public async Task<Result> CreateTreasureMapAndCalculateFuel([FromBody] CreateTreasureMapDto dto)
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
+            var treasureMap = await _treasureMapService.CreateTreasureMap(dto, userId);
+            return await _resultsService.CalculateAndStoreResult(treasureMap.MapId, userId);
         }
 
         // GET: api/treasuremaps/{mapId}

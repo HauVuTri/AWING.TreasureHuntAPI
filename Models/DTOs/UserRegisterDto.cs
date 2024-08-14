@@ -2,13 +2,32 @@
 {
     public class UserRegisterDto
     {
-        public string Username { get; set; }
-        public string Email { get; set; }
+        private string userName;
+        public string UserName
+        {
+            get { return userName.Trim(); }
+            set { userName = value.Trim(); }
+        }
+        private string email;
+
+        public string Email
+        {
+            get { return email; }
+            set { email = value; }
+        }
+
         public string Password { get; set; }
     }
     public class UserLoginDto
     {
-        public string Username { get; set; }
+        private string userName;
+
+        public string UserName
+        {
+            get { return userName.Trim(); }
+            set { userName = value.Trim(); }
+        }
+
         public string Password { get; set; }
     }
 }

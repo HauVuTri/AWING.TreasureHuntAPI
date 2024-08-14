@@ -24,15 +24,18 @@ namespace AWING.TreasureHuntAPI.Services
 
         public async Task<bool> Register(UserRegisterDto userRegisterDto)
         {
-            if (await UserExists(userRegisterDto.Username))
+            string username = userRegisterDto.UserName.Trim();
+            string email = userRegisterDto.Email.Trim();
+            //string password = userRegisterDto.Username.Trim();
+            if (await UserExists(userRegisterDto.UserName))
                 return false;
 
             var hash = HashPassword(userRegisterDto.Password);
 
             var user = new User
             {
-                Username = userRegisterDto.Username.ToLower(),
-                Email = userRegisterDto.Email,
+                Username = username,
+                Email = email,
                 PasswordHash = hash,
                 CreatedAt = DateTime.Now
             };
@@ -58,7 +61,7 @@ namespace AWING.TreasureHuntAPI.Services
 
         public async Task<string> Login(UserLoginDto userLoginDto)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Username == userLoginDto.Username.ToLower());
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Username == userLoginDto.UserName.ToLower());
 
             if (user == null)
                 return null;

@@ -24,7 +24,7 @@ namespace AWING.TreasureHuntAPI.Controllers
             if (!result)
                 return BadRequest("Username is already taken.");
 
-            return Ok(new { Username = userRegisterDto.Username, Email = userRegisterDto.Email });
+            return Ok(new { Username = userRegisterDto.UserName, Email = userRegisterDto.Email });
         }
 
         [HttpPost("login")]

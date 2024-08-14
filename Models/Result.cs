@@ -10,7 +10,7 @@ public partial class Result
 
     public int? MapId { get; set; }
 
-    public double FuelUsed { get; set; }
+    public double? FuelUsed { get; set; }
 
     public DateTime? CalculatedAt { get; set; }
 
