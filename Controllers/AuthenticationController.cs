@@ -19,6 +19,10 @@ namespace AWING.TreasureHuntAPI.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDto userRegisterDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var result = await _authService.Register(userRegisterDto);
 
             if (!result)
@@ -30,6 +34,10 @@ namespace AWING.TreasureHuntAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserLoginDto userLoginDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var token = await _authService.Login(userLoginDto);
 
             if (token == null)

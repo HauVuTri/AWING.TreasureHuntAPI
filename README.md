@@ -41,5 +41,6 @@ This is the backend API for the Treasure Hunt application. It is built using ASP
 	- dotnet ef database update
 4. dotnet run
 
+5. Create a user by using Authentication/register api.
 
 
